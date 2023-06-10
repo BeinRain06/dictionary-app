@@ -1,0 +1,116 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+div {
+  width: 100%;
+}
+
+ul {
+  list-style: none;
+}
+
+@media (min-width: 210px) {
+  .sample_meaning_container {
+    width: 100%;
+    height: auto;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    margin: auto;
+    background-color: #5e9175;
+  }
+
+  /* welcome meaning */
+
+  .about_speech {
+    width: 60%;
+    gap: 1rem;
+    padding: 0.7rem 0;
+    margin: auto;
+  }
+
+  .meaning_content {
+    position: relative;
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+  }
+
+  /* icons chevrons */
+  .icon_right,
+  .icon_left {
+    position: absolute;
+    top: 50%;
+    right: 5%;
+    transform: translate(-5%, -50%);
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #fff;
+    opacity: 0.5;
+  }
+
+  .icon_left {
+    left: 5%;
+  }
+
+  /* definitions */
+
+  .about_definition {
+    width: 75%;
+    gap: 1rem;
+    margin-left: calc(10%);
+    justify-content: center;
+    margin: auto;
+  }
+
+  .all_over_definitions {
+    width: 78%;
+    display: block;
+    justify-content: center;
+
+    margin-left: calc(10%);
+
+    margin: auto;
+  }
+
+  .def_wrapper {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    flex-wrap: wrap;
+    flex-basis: 40%;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .box_def {
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    color: #fff;
+  }
+
+  .order_selection {
+    font-size: 14px;
+    box-shadow: 2px 2px 5px 0 rgba(0, 0, 0, 0.3);
+  }
+
+  .definition {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    text-align: center;
+    background-color: #0f5e9c;
+    padding: 0.35rem 0;
+  }
+}
