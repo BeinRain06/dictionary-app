@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 function App() {
-  const [word, setWord] = useState("leave");
+  const [word, setWord] = useState("grow");
   const [isLoading, setLoading] = useState(false);
   const [dataWord, setDataWord] = useState([]);
   const [count, setCount] = useState(0);
@@ -30,9 +30,9 @@ function App() {
         `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`
       );
       /* const results = response.data; */
-      console.log("dico data :", response.data);
+      /* console.log("dico data :", response.data); */
 
-      /* setDataWord(results); */
+      setDataWord(response.data);
     } catch (err) {
       console.log(err);
     }
@@ -56,7 +56,7 @@ function App() {
           handleWordChange={handleWordChange}
           handleCount={handleCount}
         />
-        <MeaningsBox isLoading={isLoading} dataWord={dataWord} />
+        <MeaningsBox isLoading={isLoading} dataWord={dataWord} word={word} />
       </div>
     </div>
   );
