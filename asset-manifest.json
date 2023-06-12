@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/dictionary-app/static/css/main.5fb19e45.css",
+    "main.js": "/dictionary-app/static/js/main.0fb2ceae.js",
+    "static/media/bootstrap-icons.woff?": "/dictionary-app/static/media/bootstrap-icons.4753c5ba57962b4d7bf8.woff",
+    "static/media/bootstrap-icons.woff2?": "/dictionary-app/static/media/bootstrap-icons.6d63d0501e5ed7b79dab.woff2",
+    "index.html": "/dictionary-app/index.html",
+    "main.5fb19e45.css.map": "/dictionary-app/static/css/main.5fb19e45.css.map",
+    "main.0fb2ceae.js.map": "/dictionary-app/static/js/main.0fb2ceae.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.5fb19e45.css",
+    "static/js/main.0fb2ceae.js"
+  ]
+}
