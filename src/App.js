@@ -2,37 +2,44 @@
 import "./App.css";
 import SearchBar from "./components/SearchBar";
 import MeaningsBox from "./components/MeaningsBox";
+import Loading from "./loading/Loading";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
 function App() {
-  const [word, setWord] = useState("grow");
+  const [word, setWord] = useState("bill");
   const [isLoading, setLoading] = useState(false);
   const [dataWord, setDataWord] = useState([]);
-  const [count, setCount] = useState(0);
+  /*  const [count, setCount] = useState(0); */
   let title = "Dictionary";
+  let searchItem = "";
 
   const handleWordChange = (e) => {
     e.preventDefault();
     if (e.target.value !== "") {
-      setWord(e.target.value.toLowerCase().trim());
+      searchItem = e.target.value.toLowerCase().trim();
       // title = word.charAt(0).toUpperCase() + word.slice(1);
     }
   };
 
-  const handleCount = () => {
-    setCount(count + 1);
+  const handleRenderChange = (e) => {
+    e.preventDefault();
+    setWord(searchItem);
   };
 
   const fetchDictionnaryWord = async () => {
     try {
+      setLoading(true);
       const response = await axios.get(
         `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`
       );
-      /* const results = response.data; */
-      /* console.log("dico data :", response.data); */
+      console.log("dico data:", response.data);
+      const results = await response.data;
+      setDataWord(results);
 
-      setDataWord(response.data);
+      setTimeout(() => {
+        setLoading(false);
+      }, 500);
     } catch (err) {
       console.log(err);
     }
@@ -40,13 +47,9 @@ function App() {
 
   useEffect(() => {
     // perform some actions
-    setLoading(true);
-    setTimeout(() => {
-      fetchDictionnaryWord();
-    }, 620);
 
-    setLoading(false);
-  }, [count]);
+    fetchDictionnaryWord();
+  }, [word]);
 
   return (
     <div className="App">
@@ -54,9 +57,9 @@ function App() {
         <SearchBar
           title={title}
           handleWordChange={handleWordChange}
-          handleCount={handleCount}
+          handleRenderChange={handleRenderChange}
         />
-        <MeaningsBox isLoading={isLoading} dataWord={dataWord} word={word} />
+        <MeaningsBox dataWord={dataWord} word={word} isLoading={isLoading} />
       </div>
     </div>
   );

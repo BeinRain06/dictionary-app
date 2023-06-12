@@ -1,6 +1,6 @@
 import "./SearchBar.css";
 
-function SearchBar({ title, handleWordChange, handleCount }) {
+function SearchBar({ title, handleWordChange, handleRenderChange }) {
   return (
     <div className="search_container col-10 col-md-8">
       <div className="search_content">
@@ -15,7 +15,7 @@ function SearchBar({ title, handleWordChange, handleCount }) {
           />
           <button
             className="btn_wrapper d-flex flex-center"
-            onClick={handleCount}
+            onClick={handleRenderChange}
           >
             <i className="bi bi-search"></i>
           </button>

@@ -5,7 +5,7 @@ Sideland : **## words and meanings**
 > ### Overview :
 
 - **Say one word!**
-- Words simply put are useful to make sense in a sentence. If you will to say something to someone you don't kick spelling letters with you feets but use words coming out from your mouth. It is neccessary and of one a great importance to know about words and their meanings. One fact is because words used casually might cut out the sense given to your thoughts and sentences. When you are a public personnality, a star , and have popularity on one field, you need to be careful about what you say because one word can make you stand as a skillfull or a good person or in reverse like a trash or an evil person . It all depends if you have right used it, and also of the **context** that lead you to bring out what you say or what you have said.
+- Words simply put are useful to make sense in a sentence. If you will to say something to someone you don't kick spelling letters with you feets but use words coming out from your mouth. It is neccessary and of one a great importance to know about words and their meanings. One fact is because words used casually might cut out the sense given to your thoughts and sentences. When you are a public personnality, a star , and have popularity on one field, you need to be careful about what you say because one word can make you stand as a skillfull or a good person as well as in reverse perceived like a trash or an evil . It all depends if you have right used words in your speech, and also of the **context** that brought you out to argue about what has been asked or your opinion on something.
 
 ## Interest
 
@@ -22,86 +22,94 @@ You might be interested on how:
 
 ## Description : \* challenge issue
 
-**redux reducer actions**
+**1. error failed code 429**
 
-> Redux is particular;y famous when dealing with large scale app that have severals **data** to manage, we were willing to go through this **state management tool** and looks how it works.
+> i got that error in my <App/> component when fectching external API data coming from the web APi: **dictionary api dev**. The real issue given by this error according to this code **429** is :**Too many requests**. It was due to the fact that in the code underneath :
+
+`const fetchDictionnaryWord = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get(
+      `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`
+);
+
+**-->** console.log ("dico data:", response.data);
+
+      const results = await response.data;
+
+**-->** setDataWord(results);
+
+      setTimeout(() => {
+        setLoading(false);
+      }, 500);
+    } catch (err) {
+      console.log(err);
+    }
+
+};`
+
+> **what was going on**
+
+- I was calling the two lines above marked by arrow(**-->**) at the same time . I have to call one at the time. Either `console.log ("dico data:", response.data);` or `setDataWord(results);` but not the both at the same time;
+
+**2. error cannot update a component while rendering another component**
+
+> initially i want to set a **useState Hook** to count everytime i click the **Search icon** and **re-render the dom** after doing that . But i **break** some rules of **react** not according to change state in a **child component** while this state has been firslty declared in a **parent component**. Here have a pattern look over my mistake:
 >
+> 1. first doing in **<App/>** i declared ` const [count, setCount] = useState(0);`
+> 2. i passed **count** and **setCount** to a child of <App/> component
+
+- `<SearchBar
+  count={count}
+  setCount={setCount}
+/>`
+  > 2. i end set up **count** with an onClick event in my button
+- `<button
+  className="btn_wrapper d-flex flex-center"
+  onClick={**setCount(count + 1 )**}
+  >
+      <i className="bi bi-search"></i>
+  </button>`
+  **not great, here i got an error**
+
+> **what was going on**
+
+- I needed to write function to set **count** in the parent element <App/> and then pass down **this function** as a **props**. It has to be like:
+- 1. in **<App/>** writing :
+  - `
+const handleCount= (e) => {
+  e.preventDefault();
+  setCount(count + 1)
+}`
+- 2. passings **props**
+  - `<SearchBar
+  handleCount={handleCount}
+/>`
+- 3. implementing props in the onClick Event
+  - `<button
+    className="btn_wrapper d-flex flex-center"
+    onClick={handleCount}
+    > <i className="bi bi-search"></i> > </button>`
+
+> After correctly implement these step the error **cannot update a component while rendering another component** was fixed.
+>
+> **3. creating slider in the x-axis**
+> I really thanks **kevin Powell** on **Youtube** with his bunch of **tutorial** helping **people** to better understand how **css** work. The tutorial about **create a horizontal media scroller with css** help me figure out how to **use** `Grid css` to shift content from the **Y-axis** to the **X-axis** by doing some simply change :
+
+1. inside the container **div**:
+   - display: **grid**
+   - grid-auto-flow: **column**
+   - grid-auto-columns: **100%** //for me
+   - overflow-x: **auto**
+
+- and **so on...**
+
 > **analyzing**
-
-1.  Here is the part we have much had trouble **reducers** in `createSlice`
-
-    > `reducers: {
-    > addToCart: (state, action) => {
-
-        const newItem = action.payload;
-
-        const index1 = newItem.id - 1;
-
-        const existingItem = state.myCartProducts.find(
-          (item) => item.id === newItem.id
-        );
-
-        if (existingItem) {
-          existingItem.quantity++;
-          existingItem.totalPrice += newItem.price;
-          state.productsList[index1].quantity++;
-          console.log(existingItem.quantity);
-          console.log(existingItem.totalPrice);
-        } else {
-          state.myCartProducts.push({
-            id: newItem.id,
-            name: newItem.name,
-            price: newItem.price,
-            quantity: 1,
-            totalPrice: newItem.price,
-          });
-          state.totalQuantity++;
-          state.productsList[index1].quantity = 1;
-        }
-
-        state.entireBill = state.myCartProducts.reduce((accumulator, item) => {
-          return accumulator + item.totalPrice;
-        }, 0);
-
-    },
-    }`
-
-    >
-
-- because we need to `understand` really about what is `payload` and how to deal writing functions that could affect state of some variables we declared.
-- Here is what we got . **payload** is about what we need to pass to **initialize** or set actions through a given direction.
-- For example this syntax of `addToCart` in our cartSlice.js file use **payload** we push first an element to a cart `state.myCartProducts.push(**payload**)`. Here the payload is an **object** variable passed to _myCartsProducts_ array and this direction also move us to set **payload** at the right component **<Product/>** where the the `addToCart`es effectively triggered :
-  - `const addToCart = () => {
- dispatch( cartActions.addToCart({ **payload**}));
-}` >
-- **payload** is all about what you need to achieve a certain action . Payload could be a **number**, an **object**, an **array**, ...
-
->
-
-2.  with **redux** using **@reduxjs/toolkit** we need two main files:
-
-    - the first to **configure** our storage file `store.js` file.
-      >
-    - the second to **initialize**, **get** and **set** method to **manages** state change of our app. here that correspond to our `cartSlice.js` file.
-
->
-
-3.  we have to provide data of our **store** to our entire application (wrap <App/> component located in `index.js` file ) using <Provider>{children}<Provider/> component.
-
-- Here it looks alike:
-- `const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
-  </React.StrictMode>
-);`
 
 ## CSS Structures:
 
 > two main components in your <App/>:
-> -Header.jsx, and Main.jsx
+> -SearchBar.jsx, and MeaningsBox.jsx
 
 **Picture**
 
@@ -124,6 +132,18 @@ Like this:
   - import "bootstrap/dist/css/bootstrap.min.css";
   - import "bootstrap/dist/js/bootstrap.bundle.min";
 - Use Classes you need searching over the bunch of classes given in the official website _getbootstrap.com_
+
+### Achieve Carousel slider in React
+
+- we need to install the module `react-responsive-carousel` via **npm** `npm install react-responsive-carousel` or **yarn** `yarn add react-responsive-carousel`
+- we will be also import `<Carousel><Carousel/>` in the right component where we implement it .
+- also import some **minified css** style for \*\*Carousel :
+  - `import { Carousel } from "react-responsive-carousel";
+    import "react-responsive-carousel/lib/styles/carousel.min.css";
+`
+- and straightly implement it . See under my <MeaningsBox.jsx> file how it was done.
+
+### to carefully use `useState Hook` in parent and children components.
 
 ### utilities Materials:
 
@@ -152,16 +172,11 @@ src: _National Geography Education_
 
 ## Useful Resources :
 
-- web Dev Simplified: [https://www.youtube.com/watch?v=s1XVfm5mIuU](https://www.youtube.com/watch?v=s1XVfm5mIuU) : quick reminding explanation on how to use `reduce` **method** of javasript when having array of object variables and need to access specificly a **particular** property inside;
+- makeuseOf.com: [https://www.makeuseof.com/react-js-interactive-carousel-build/](https://www.makeuseof.com/react-js-interactive-carousel-build/) : was my base to quickly build my slider using basic carousel. I thanks the owner of the website for his brief and concise article.
 
   >
 
-- Colt Steele: [https://www.youtube.com/watch?v=VOQSrdX82L8](https://www.youtube.com/watch?v=VOQSrdX82L8) : in a way similar the prevous video, lead me to know about others uses of `reduce` **method** of javascript inside a project.
-
-  >
-
-- freeCodeCamp.org: [https://www.youtube.com/watch?v=zrs7u6bdbUw&t=1566s](https://www.youtube.com/watch?v=zrs7u6bdbUw&t=1566s) : simply put this one was my guidelines and inspiration to how **manages** state in `react-redux` using **@reduxjs/toolkit** and it works fine. thanks you to **nikhil-thadani** of **freeCodeCamp** . Also it has a given repository under: [Nikhilthadani /
-  Redux-Shopping-Cart-App](https://github.com/Nikhilthadani/Redux-Shopping-Cart-App)
+- Kevin Powell[Youtube]: [https://www.youtube.com/watch?v=3yfswsnD2sw&t=1260s](https://www.youtube.com/watch?v=3yfswsnD2sw&t=1260s) : My Guide to thourougly implement **X-axis** orientation of my **dictionary card**
 
 ## Acknowledge:
 
@@ -169,9 +184,9 @@ This project always remember the Team :
 
 - **Sufa Digital**: udemy with his enlightment about the feature to achieve this project
   >
-- **nikhil-thadani** : with his help with a realistic project how manage state with **redux** in react
+- **Kevin Powell** : with his help with a realistic example of an horizontal **carts slider**
   >
-- **Kyle[web dev Simpliflied]** and also **Colt Sttele** that give us a brief and concise explanation about javascript **reduce** method.
+- **[makeuseof.com]** to help me quickly implement `Carousel`.
 
 _Our Work always remember this team_
 

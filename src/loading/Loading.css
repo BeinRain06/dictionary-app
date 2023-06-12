@@ -14,7 +14,15 @@
   align-items: center;
   width: 100vw;
   min-height: 100vh;
-  background-color: rgba(63, 80, 66, 0.3);
+  background-image: linear-gradient(
+    to bottom,
+    #eac779,
+    #d8ae65,
+    #c69552,
+    #b37d40,
+    #a06530
+  );
+  z-index: 20;
 }
 
 .our_spinner {

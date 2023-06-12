@@ -1,28 +1,31 @@
 import "./MeaningsBox.css";
+import React from "react";
 import Meaning from "./Meaning";
-/* import Loading from "../loading/Loading"; */
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import Loading from "../loading/Loading";
 
-function MeaningsBox({ dataWord, word }) {
+function MeaningsBox({ dataWord, word, isLoading }) {
   return (
-    <div className="meanings_container col-10 col-md-8">
-      <div className="meanings_content">
-        <div className="word_welcome col-8 col-md-7">
-          <p className="word-entered">{word}</p>
+    <div className="meanings_container col-11 col-md-8">
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <div className="meanings_content">
+          <div className="word_welcome col-10 col-md-7">
+            <p className="word-entered">{word}</p>
+          </div>
+          <div id="wrap_meaning" className="wrap_meaning snaps_inline ">
+            <Carousel>
+              {dataWord.map((item, index) => (
+                <div key={index} className="call_meaning" data-toggle={index}>
+                  <Meaning key={index} item={item} id={index} />
+                </div>
+              ))}
+            </Carousel>
+          </div>
         </div>
-        <ul className="wrap_meaning">
-          <button className="icon_left">
-            <i className="bi bi-chevron-left"></i>
-          </button>
-          <button className="icon_right">
-            <i className="bi bi-chevron-right"></i>
-          </button>
-          {dataWord.map((item, index) => (
-            <li key={index} className="call_meaning" data-toggle={index}>
-              <Meaning key={index} item={item} id={index} />
-            </li>
-          ))}
-        </ul>
-      </div>
+      )}
     </div>
   );
 }
